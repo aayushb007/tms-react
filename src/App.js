@@ -1,24 +1,40 @@
-import logo from './logo.svg';
 import './App.css';
-
+import Navbar from './components/Navbar';
+import Tasks from './components/tasks/Tasks';
+import Signup from './components/auth/Signup';
+import Login from './components/auth/Login';
+import {
+  BrowserRouter,
+  
+  Route,
+  Routes,
+} from "react-router-dom";
 function App() {
+  // const isAuthenticated = localStorage.getItem('token') ? true : false;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    
+      
+     
+      {/* <h1>Task management System</h1> */}
+         {/* <Tasks/> */}
+      
+    
+    <BrowserRouter>
+          <Navbar />
+         
+          <Routes>
+            
+            <Route path="/" element={<Tasks />}  />
+
+            <Route path="/login" element={<Login />}   />
+
+            <Route path="/signup" element={<Signup />}  />
+
+          </Routes>
+        </BrowserRouter>
+    </>
   );
 }
 
