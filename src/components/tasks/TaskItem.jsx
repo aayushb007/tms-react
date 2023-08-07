@@ -1,7 +1,9 @@
-import React, { useState, useRef } from 'react'
-
+import React, { useState, useRef, useContext } from 'react'
+import TaskContext from '../../context/taskContext';
 const TaskItem = (props) => {
   const [showDetails, setShowDetails] = useState(false);
+  const context = useContext(TaskContext);
+  const { deleteTask } = context;
   const [editedTask, setEditedTask] = useState({
     id: props.id,
     title: props.title,
@@ -13,9 +15,7 @@ const TaskItem = (props) => {
   const handleToggleDetails = () => {
     setShowDetails(!showDetails);
   };
-  const handleDelete = () => {
-    props.onTaskDelete(editedTask.id)
-  }
+
   const ref = useRef(null)
   const closeref = useRef(null)
   const handleClick = (e) => {
@@ -52,7 +52,7 @@ const TaskItem = (props) => {
             </>
           )}
           <button className='btn btn-sm btn-primary mx-2' onClick={handleClick} >Edit</button>
-          <button className='btn btn-sm btn-danger' onClick={handleDelete}>Delete</button>
+          <button className='btn btn-sm btn-danger' onClick={()=> { deleteTask(props.id)}}>Delete</button>
 
         </div>
 

@@ -1,28 +1,30 @@
-import React, { useState } from 'react'
-
+import React, { useContext, useState } from 'react'
+import TaskContext from '../../context/taskContext';
 function AddTask(props) {
-    const apiUrl = 'http://localhost:3002/task'
+    const context = useContext(TaskContext);
+    const apiUrl = 'http://localhost:3002/task';
+    const {addTask,getTask} = context;
     const [task, setTasks] = useState({ title: "", desc: "", due_date: "", status: "" });
-    const addTask = () => {
-        const sanitizedTask = JSON.parse(JSON.stringify(task).replace(/'/g, '"'));
+    // const addTask = () => {
+    //     const sanitizedTask = JSON.parse(JSON.stringify(task).replace(/'/g, '"'));
 
-        fetch(apiUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(sanitizedTask)
-        }).then((response) => {
-            console.log(response);
-            props.fetchTask();
+    //     fetch(apiUrl, {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify(sanitizedTask)
+    //     }).then((response) => {
+    //         console.log(response);
+    //         props.fetchTask();
 
-        }).catch((err) => {
-            console.log(err);
-        })
-    }
+    //     }).catch((err) => {
+    //         console.log(err);
+    //     })
+    // }
     const handleClick = (e) => {
         e.preventDefault();
-        addTask();
+        addTask(task);
 
     }
     const onChange = (e) => {

@@ -1,21 +1,24 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState , useContext} from 'react'
 import TaskItem from './TaskItem';
 import AddTask from './AddTask';
-
+import TaskContext from '../../context/taskContext';
 const Tasks = () => {
+  const context = useContext(TaskContext);
+  const { tasks, getTask  } = context;
+  const [newTask,setnewTask] = useState(tasks && tasks);
   const apiUrl = 'http://localhost:3002/task'
-  const [tasks, setTasks] = useState([]);
+  // const [tasks, setTasks] = useState([]);
   const [flag, setFlag] = useState(false);
-  const fetchTasks = () => {
-    fetch(apiUrl)
-      .then(res => res.json())
-      .then(data => {
-        setTasks(data);
-      })
-  }
+  // const fetchTasks = () => {
+  //   fetch(apiUrl)
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       setTasks(data);
+  //     })
+  // }
   useEffect(() => {
-    fetchTasks();
-  }, [])
+    getTask();
+  }, [tasks])
   const editTasks = (taskId, updatedTaskData) => {
     console.log('Function called', taskId, updatedTaskData);
     fetch(`${apiUrl}/${taskId}`, {
@@ -26,26 +29,26 @@ const Tasks = () => {
       body: JSON.stringify(updatedTaskData)
     }).then((response) => {
       console.log(response);
-      setTasks((prevTasks) =>
-        prevTasks.map((task) => (task._id === taskId ? { ...task, ...updatedTaskData } : task))
-      );
+      // setTasks((prevTasks) =>
+      //   prevTasks.map((task) => (task._id === taskId ? { ...task, ...updatedTaskData } : task))
+      // );
     }).catch((err) => {
       console.log(err);
     })
   }
-  const deleteTask = (taskId) => {
-    fetch(`${apiUrl}/${taskId}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then((response) => {
-      console.log(response);
-      setTasks((prevTasks) => prevTasks.filter((task) => task._id !== taskId));
-    }).catch((err) => {
-      console.log(err);
-    })
-  }
+  // const deleteTask = (taskId) => {
+  //   fetch(`${apiUrl}/${taskId}`, {
+  //     method: 'DELETE',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     }
+  //   }).then((response) => {
+  //     console.log(response);
+  //     // setTasks((prevTasks) => prevTasks.filter((task) => task._id !== taskId));
+  //   }).catch((err) => {
+  //     console.log(err);
+  //   })
+  // }
 
   const handleToggleDetails = () => {
     setFlag(!flag);
@@ -54,15 +57,15 @@ const Tasks = () => {
   let closedCount = 0;
   let pendingCount = 0;
   let openCount = 0;
-
-  tasks.forEach((task) => {
+if (tasks.length > 0) {
+  tasks.map((task) => {
     if (task.status === 'Complete') {
       closedCount++;
     } else if (task.status === 'Pending') {
       pendingCount++;
     }
   });
-
+}
   return (
     <>
       <div className='container'>
@@ -81,13 +84,13 @@ const Tasks = () => {
         <div className="row">
           {tasks.map((task) => (
             <div className="col-md-4 my-2" key={task._id}>
-              <TaskItem id={task._id} title={task.title} desc={task.desc} due_date={task.due_date} status={task.status} onTaskEdit={editTasks} onTaskDelete={deleteTask} />
+              <TaskItem id={task._id} title={task.title} desc={task.desc} due_date={task.due_date} status={task.status} onTaskEdit={editTasks}  />
             </div>
           ))}
           <div className="col-ms-4 my-2">
             <button className='btn btn-light' onClick={handleToggleDetails}> ➕</button></div>
           {flag && (
-            <AddTask fetchTask={fetchTasks} />
+            <AddTask  />
           )}
         </div>
       </div>

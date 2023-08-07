@@ -9,6 +9,7 @@ import {
   Route,
   Routes,
 } from "react-router-dom";
+import TaskState from './context/TaskState';
 function App() {
   // const isAuthenticated = localStorage.getItem('token') ? true : false;
 
@@ -20,7 +21,7 @@ function App() {
       {/* <h1>Task management System</h1> */}
          {/* <Tasks/> */}
       
-    
+    <TaskState>
     <BrowserRouter>
           <Navbar />
          
@@ -34,6 +35,7 @@ function App() {
 
           </Routes>
         </BrowserRouter>
+        </TaskState>
     </>
   );
 }
