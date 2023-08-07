@@ -35,7 +35,7 @@ function AddTask(props) {
 
     }
     return (
-        <div className='container'>
+        <div className='container bg-dark text-light p-3'>
             <h1>Create Task</h1>
 
             <form >

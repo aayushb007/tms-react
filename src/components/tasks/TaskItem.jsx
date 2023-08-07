@@ -41,7 +41,7 @@ const TaskItem = (props) => {
   return (
     <>
       <div className="card"  >
-        <div className="card-body" >
+        <div className="card-body bg-dark text-light" >
           <h5 className="card-title" onClick={handleToggleDetails}>{props.title}</h5>
 
           {showDetails && (
@@ -51,8 +51,8 @@ const TaskItem = (props) => {
               <p className="card-text">Status: {props.status}</p>
             </>
           )}
-          <button className='btn btn-sm btn-primary mx-2' onClick={handleClick} >Edit</button>
-          <button className='btn btn-sm btn-danger' onClick={()=> { deleteTask(props.id)}}>Delete</button>
+          <button className='btn btn-sm btn-light mx-2' onClick={handleClick} >Edit</button>
+          <button className='btn btn-sm btn-light' onClick={()=> { deleteTask(props.id)}}>Delete</button>
 
         </div>
 
